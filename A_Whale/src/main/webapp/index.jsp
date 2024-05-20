@@ -15,11 +15,11 @@
 <title>A-Whale</title>
 </head>
 <body>
-   <div class="menu1">
+   <!-- <div class="menu1">
       <img src="https://i.pinimg.com/564x/d0/aa/aa/d0aaaa675b2aa1158492d4e698b28655.jpg" alt="동그라미~"> 
          <img class="lettering" src="./image/awhale.png" alt="레터링">
 
-   </div>
+   </div> -->
    <div class="menu2">
       <div class="menu2-1">
          <a style="text-decoration-line: none;" href="">A-Whale</a> 
