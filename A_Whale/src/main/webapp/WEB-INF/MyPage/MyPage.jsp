@@ -4,6 +4,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<%@ include file="/WEB-INF/common/header.jsp" %> 
 <title>Insert title here</title>
 </head>
 <body>
@@ -81,14 +82,7 @@
 </style>
 
 
-<header>
-    <div id="top">
-        <a href="header.html">
-            <img src="" alt="브랜드로고" style="border-radius: 100%;"><h1 id="brandlogo">브랜드로고</h1>
-        </a>
-</div>
-<h3 id="mypage">마이페이지</h3>
-</header>
+
 <body>
     <section class="section">
         <aside class="aside">
