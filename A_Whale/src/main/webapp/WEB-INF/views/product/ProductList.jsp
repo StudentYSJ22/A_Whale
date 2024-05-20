@@ -115,7 +115,7 @@
     	align-items:center;
     	grid-template-columns: repeat(3,400px);
     	grid-template-rows: repeat(2,520px);
-    	gap:200px;
+    	gap:150px;
     	
     }
     
@@ -215,13 +215,15 @@
         </div>
         
         <script>
-        	const productNo = 6;
+        	let firstNo = 1;
+        	let lastNo = 6;
         	document.getElementById("read-btn").addEventListener("click",e=>{
-        		productNo=productNo+6;
-        		fetch("<%=request.getContextPath()%>/product/productlist.do?lastNo="+productNo)
+        		firstNo=firstNo+6;
+        		lastNo=lastNo+6;
+        		fetch("<%=request.getContextPath()%>/product/productlist.do?lastNo="+lastNo+"&firstNo="+firstNo)
         		.then(response=> response.text())
         		.then(data=>{
-        			alert("성공");
+        			
         		});
         	});
         

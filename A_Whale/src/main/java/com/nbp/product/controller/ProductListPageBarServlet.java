@@ -47,7 +47,7 @@ public class ProductListPageBarServlet extends HttpServlet {
 			pageBar="<div id='read-btn'><p>read-More</p></div>";
 		}
 		
-		List<Product> result = new ProductService().selectProductAll(firstNo,lastNo);
+		
 		
 		
 		request.setAttribute("pageBar",pageBar);
