@@ -314,7 +314,7 @@
                   </li>
                   <li><a href="#" id="menu">community</a>
                     <ul id="sub-menu">
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
+                      <li><a href="<%=request.getContextPath()%>/notice/noticelist.do" aria-label="subemnu">Notice</a></li>
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
@@ -323,7 +323,9 @@
                   </li>
                   <li><a href="#" id="menu">service</a>
                     <ul id="sub-menu">
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
+                      <%if(loginMember!=null &&loginMember.getMemberId().equals("ADMIN")){ %>
+                      	<li><a href="<%=request.getContextPath()%>/admin/adminpage.do" aria-label="subemnu">AdminPage</a></li>
+                      <%} %>
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
