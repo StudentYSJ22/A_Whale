@@ -16,7 +16,7 @@ public class MemberDAO {
 	private Properties sql=new Properties();
 	{
 		String path=MemberDAO.class
-				.getResource("/sql/member/sql_member.properties").getPath();
+				.getResource("/member/member.properties").getPath();
 		try(FileReader fr=new FileReader(path)){
 			sql.load(fr);
 		}catch(IOException e) {
@@ -61,7 +61,7 @@ public class MemberDAO {
 		}return m;	
 	}
 	public static Member getMember(ResultSet rs) throws SQLException{
-		Date enrollDate=rs.getDate("enrolldate");
+		Date enrollDate=rs.getDate("member_enroll_date");
 //		String email, phone;
 //		try {
 //			email=AESEncryptor.decryptData(rs.getString("email"));

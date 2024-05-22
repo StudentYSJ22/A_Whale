@@ -15,10 +15,16 @@
 <title>A-Whale</title>
 </head>
 <body>
+<<<<<<< HEAD
    <div class="menu1">
 
+=======
+   <!-- <div class="menu1">
+      <img src="https://i.pinimg.com/564x/d0/aa/aa/d0aaaa675b2aa1158492d4e698b28655.jpg" alt="동그라미~"> 
+         <img class="lettering" src="./image/awhale.png" alt="레터링">
+>>>>>>> branch 'A_Whale_DEV' of https://github.com/StudentYSJ22/A_Whale.git
 
-   </div>
+   </div> -->
    <div class="menu2">
       <div class="menu2-1">
          <a style="text-decoration-line: none;" href="">A-Whale</a> 

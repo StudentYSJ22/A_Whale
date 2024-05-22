@@ -4,8 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<<<<<<< HEAD
 <title>A.Whale Products</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+=======
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+>>>>>>> branch 'A_Whale_DEV' of https://github.com/StudentYSJ22/A_Whale.git
     <style>
     	header{
     		background-image:url("https://images.unsplash.com/photo-1629196911514-cfd8d628ba26?q=80&w=1998&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
@@ -214,7 +219,7 @@
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
                     </ul>
                   </li>
-                  <li><a href="#" id="menu">sercvice</a>
+                  <li><a href="#" id="menu">service</a>
                     <ul id="sub-menu">
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
