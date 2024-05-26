@@ -30,25 +30,21 @@ public class FindPWEndServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		//String request.getParameter("findemail");
 		MemberService sr=new MemberService();
 		String newPw=request.getParameter("newPw");
 		String userId=request.getParameter("userId");
 		String email=request.getParameter("email");
 		int Pwresult=sr.updateMemberByEmail(newPw, userId, email);
-		String msg=""; String loc="";
-		if(Pwresult>1) {
-			msg="비밀번호가 변경되었습니다.";
-			loc="/";
-		}else {
-			msg="비밀번호 변경 실패하였습니다.";
-			loc="/";
+		if(Pwresult>=1) {
+			response.getWriter().write("비밀번호가 변경되었습니다.");
+		}else if(Pwresult<0){
+			response.getWriter().write("비밀번호가 변경에 실패하였습니다.");
 		}
 
-		request.setAttribute("msg", msg);
-		request.setAttribute("loc", loc);
 
-		response.getWriter().write("비밀번호가 변경되었습니다.");
 	}
 
 	/**
