@@ -116,7 +116,7 @@
                     method: "POST",
                     data: { email: email },
                     success: function(response) {
-                    	console.log(response);
+
                     	verificationCodefromWeb = response;
                         $('#userId').prop('readonly', true);
                         $('#email').prop('readonly', true);
@@ -155,7 +155,6 @@
                     method: "POST",
                     data: { userId: document.getElementById("userId").value, email: document.getElementById("email").value, newPw: document.getElementById("newPw").value },
                     success: function(response) {
-                    	console.log(response);
                         $("#result").html(response);
                         $('#check_newPw').prop('readonly', true);
                         $('#newPw').prop('readonly', true);
