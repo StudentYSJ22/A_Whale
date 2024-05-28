@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class Qna {
 	private String qnaId;
 	private String memberId;
-	private int qnaAnswerNumber;
 	private String qnaTitle;
 	private String qnaContent;
 	private Date qnaEnrollDate;
@@ -23,4 +22,6 @@ public class Qna {
 	private int qnaDeleteYn;
 	private int qnaSecretYn;
 	private String productName;
+	private String qnaAnswerContent;
+	private Date qnaAnswerEnrollDate;
 }

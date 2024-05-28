@@ -143,14 +143,14 @@ public class ProductInfoServlet extends HttpServlet {
 		if(pageNo==1) {
 			qnaPageBar+="<img src='https://i.imgur.com/hV1m2Nk.png' width='10px' height='15px' style='opacity:0.5'>";
 		}else {
-			qnaPageBar+="<img id='reviewPagePrev' style='cursor:pointer;' src=\"https://i.imgur.com/9b9FgKl.png\" width=\"10px\" height=\"15px\">";
+			qnaPageBar+="<img id='qnaPagePrev' style='cursor:pointer;' src=\"https://i.imgur.com/9b9FgKl.png\" width=\"10px\" height=\"15px\">";
 		}
 		//페이지 숫자 버튼 구현 
 		while(!(pageNo>pageEnd||pageNo>totalPage)) {
 			if(pageNo==cPage) {
-				qnaPageBar+="<div id='cPageNext' style='font-size:20px; color:rgb(125, 125, 125);'>"+pageNo+"</div>";
+				qnaPageBar+="<div id='cPageNext_qna' style='font-size:20px; color:rgb(125, 125, 125);'>"+pageNo+"</div>";
 			}else {
-				qnaPageBar+="<div class='cPage' style='cursor:pointer;'>"+pageNo+"</div>";
+				qnaPageBar+="<div class='qnacPage' style='cursor:pointer;'>"+pageNo+"</div>";
 			}
 			pageNo++;
 		}
@@ -158,7 +158,7 @@ public class ProductInfoServlet extends HttpServlet {
 		if(pageNo>totalPage) {
 			qnaPageBar+="<img src=\"https://i.imgur.com/9dt5DiB.png\" width=\"10px\" height=\"15px\" style='opacity:0.5'>";
 		}else {
-			qnaPageBar+="<img id='reviewPageNext' style='cursor:pointer;' src=\"https://i.imgur.com/9dt5DiB.png\" width=\"10px\" height=\"15px\">";
+			qnaPageBar+="<img id='qnaPageNext' style='cursor:pointer;' src=\"https://i.imgur.com/9dt5DiB.png\" width=\"10px\" height=\"15px\">";
 		}
 		
 		qnaPageBar+="</div>";

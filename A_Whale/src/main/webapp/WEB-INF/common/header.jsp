@@ -264,9 +264,15 @@
                 </div>
                 <div class="logo border" ><img src="https://postfiles.pstatic.net/MjAyNDA1MTZfNjcg/MDAxNzE1ODUwMjgwOTY5.Jv6Kv_HtWZpWqwM47oHMsFPkdaNbnGuLxQcWEOivE3og.C6hmrMJVaBa-vZpvbdWJ47MpvixWDoZYUjALOHNn1ssg.PNG/logo1.png?type=w773" alt="" width="120px" height="90px"></div>
                 <div  class="logo evencenter" style="width: 300px; height: 120px; "> 
-	                <img src="https://postfiles.pstatic.net/MjAyNDA1MTZfMjU4/MDAxNzE1ODUwMjgwOTU4.Tk8o-0wr5yOJqHcZe2qSyd6Sw5htuKotfTvqpzw3ffsg.m5BvckFSblkDLbIXmjnPS2PwN5ajZOzkXWxbG2S4fkgg.PNG/cart.png?type=w773" id="cartgo" width="50px" height="50px">
-	                <img src="https://postfiles.pstatic.net/MjAyNDA1MTZfMTY0/MDAxNzE1ODUwMjgwOTU2.uF-0pUqfz5kh9OZ-pV5bnC3W0BfZl04LzzoOjbKmAiUg.fn20oNtHI4PZjHPE9-DQ54fmBRjZ7gEQVfdQRCjDn8Eg.PNG/heart.png?type=w773" id="wishlistgo" width="50px" height="50px">
-	                <img id="mypage" src="https://postfiles.pstatic.net/MjAyNDA1MTZfNCAg/MDAxNzE1ODUwMjgxMDgw.TxIrC-5XuT4c-JczAuIocVq_gKcq-TIyIwjUNXLJbIwg.FAvOJXG7cNFKR2QCVGGy8eRzhOJLcAndZXbysBJl1YMg.PNG/person.png?type=w773"  width="50px" height="50px">
+	                <img src="https://i.imgur.com/Tod2QyI.png" id="cartgo" width="50px" height="50px">
+	                <img src="https://i.imgur.com/hcPLIWf.png" id="wishlistgo" width="50px" height="50px">
+	                <%if(loginMember!=null &&loginMember.getMemberId().equals("ADMIN")){ %>
+	                <a href="<%=request.getContextPath()%>/admin/adminpage.do"><img id="mypage" src="https://i.imgur.com/232RUYS.png"  width="50px" height="50px"></a>
+                	<%}else{ %>
+                	<img id="mypage" src="https://i.imgur.com/232RUYS.png"  width="50px" height="50px">
+                <%} %>
+                
+                
                 
                 <%if(loginMember!=null) {%>
                    <h4><%=loginMember.getMemberId() %>님 어서오세요!</h4>
@@ -291,32 +297,26 @@
             <div id="category" style="min-width: 1000px;margin-top: 20px;">
               <nav role="navigation">
                 <ul id="main-menu">
-                  <li><a href="#" id="menu">home</a>
+                  <li><a href="<%=request.getRequestURI() %>" id="menu">home</a>
                     <ul id="sub-menu">
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
+                      <li><a href="#" aria-label="subemnu">첫차intro</a></li>
                     </ul>
                   </li>
-                  <li><a href="#" id="menu">product</a>
+                  <li><a href="<%=request.getContextPath()%>/product/pagebar.do" id="menu">product</a>
                     <ul id="sub-menu">
                       <li><a href="<%=request.getContextPath()%>/product/pagebar.do" aria-label="subemnu">All-Products</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
+                      <li><a href="#" aria-label="subemnu">whisky</a></li>
+                      <li><a href="#" aria-label="subemnu">wine</a></li>
+                      <li><a href="#" aria-label="subemnu">brandy</a></li>
                     </ul>
                   </li>
                   <li><a href="#" id="menu">event</a>
                     <ul id="sub-menu">
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
+                      <li><a href="#" aria-label="subemnu">룰렛이벤트</a></li>
+                      <li><a href="#" aria-label="subemnu">댓글이벤트</a></li>
                     </ul>
                   </li>
-                  <li><a href="#" id="menu" >recipe</a>
+                  <!-- <li><a href="#" id="menu" >recipe</a>
                     <ul id="sub-menu">
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
@@ -324,25 +324,17 @@
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
                       <li><a href="#" aria-label="subemnu">submenu</a></li>
                     </ul>
-                  </li>
+                  </li> -->
                   <li><a href="#" id="menu">community</a>
                     <ul id="sub-menu">
-                      <li><a href="<%=request.getContextPath()%>/notice/noticelist.do" aria-label="subemnu">Notice</a></li>
-                      <li><a href="<%=request.getContextPath()%>/order/orderpage.do" aria-label="subemnu">결제하기</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
+                      <li><a href="#" aria-label="subemnu">place recommend</a></li>
                     </ul>
                   </li>
                   <li><a href="#" id="menu">service</a>
                     <ul id="sub-menu">
-                      <%if(loginMember!=null &&loginMember.getMemberId().equals("ADMIN")){ %>
-                         <li><a href="<%=request.getContextPath()%>/admin/adminpage.do" aria-label="subemnu">AdminPage</a></li>
-                      <%} %>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
-                      <li><a href="#" aria-label="subemnu">submenu</a></li>
+                      <li><a href="#" aria-label="subemnu">1:1 문희</a></li>
+                      <li><a href="<%=request.getContextPath()%>/notice/noticelist.do" aria-label="subemnu">notice</a></li>
+                      <li><a href="#" aria-label="subemnu">FAQ</a></li>
                     </ul>
                   </li>
                 </ul>

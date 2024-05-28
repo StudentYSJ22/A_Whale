@@ -28,7 +28,7 @@ public class ProductQnaDao {
 	public List<Qna> selectProductQnaAll(Connection conn, int cPage, int numPerpage, String productName){
 		PreparedStatement pstmt = null; 
 		ResultSet rs = null;
-		List<Qna> result = new ArrayList();
+		List<Qna> result = new ArrayList<>();
 		try {
 		pstmt = conn.prepareStatement(sql.getProperty("selectQnaAll"));
 		pstmt.setString(1, productName);
@@ -41,8 +41,8 @@ public class ProductQnaDao {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(pstmt);
 			close(rs);
+			close(pstmt);
 		}
 		return result;
 	}
@@ -59,25 +59,47 @@ public class ProductQnaDao {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(pstmt);
 			close(rs);
+			close(pstmt);
 		}
 		return result;
 	}
+	
+	public int productQnaInsert(Connection conn, String memberId,String qnaTitle,String qnaContent,String productName,int secret) {
+		PreparedStatement pstmt = null;
+		int result=0;
+		try{
+		pstmt=conn.prepareStatement(sql.getProperty("insertProductQna"));
+		pstmt.setString(1, memberId);
+		pstmt.setString(2, qnaTitle);
+		pstmt.setString(3, qnaContent);
+		pstmt.setInt(4, secret);
+		pstmt.setString(5, productName);
+		result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
 	
 	public static Qna getQna(ResultSet rs) throws SQLException {
 		return Qna.builder()
 				.qnaId(rs.getString("qna_id"))
 				.memberId(rs.getString("member_id"))
-				.qnaAnswerNumber(rs.getInt("qna_answer_number"))
 				.qnaTitle(rs.getString("qna_title"))
 				.qnaContent(rs.getString("qna_content"))
 				.qnaEnrollDate(rs.getDate("qna_enroll_date"))
 				.qnaupdateDate(rs.getDate("qna_update_date"))
-				.qnadeleteDate(rs.getDate("qna_deleteDate"))
-				.qnaDeleteYn(rs.getInt("qnaDeleteYn"))
-				.qnaSecretYn(rs.getInt("qna_secretYn"))
+				.qnadeleteDate(rs.getDate("qna_delete_date"))
+				.qnaDeleteYn(rs.getInt("qna_delete_yn"))
+				.qnaSecretYn(rs.getInt("qna_secret_yn"))
 				.productName(rs.getString("product_name"))
+				.qnaAnswerContent(rs.getString("qna_answer_content"))
+				.qnaAnswerEnrollDate(rs.getDate("qna_answer_enroll_date"))
 				.build();
 	}
 	

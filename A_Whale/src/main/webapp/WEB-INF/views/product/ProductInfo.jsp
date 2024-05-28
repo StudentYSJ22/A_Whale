@@ -3,6 +3,7 @@
 <%@ page import="java.util.List, com.nbp.product.model.DTO.Product" %>
 <%
 	Product p = (Product)request.getAttribute("productInfo");
+
 %>
 <%@ include file="/WEB-INF/common/subHeader.jsp" %> 
 <%
@@ -130,6 +131,7 @@
   }
 
   #cart{
+  	padding-top:5px;
     font-size: 30px; 
     font-weight: bolder; 
     color: rgb(3, 1, 57); 
@@ -323,6 +325,16 @@
     
     </section>
     <script>
+    	/* 장바구니 버튼 구현 */
+    	$("#cart").click(e=>{
+    		alert("장바구니 담기");
+    	})
+    
+    
+    
+    
+    
+    
     	/* 배송비 포함 호버시 배송 안내문 표시 */
     	$('#delivery').hover(
                 function(e) {

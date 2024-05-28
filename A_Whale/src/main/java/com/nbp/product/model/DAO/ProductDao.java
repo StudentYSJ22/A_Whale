@@ -42,8 +42,8 @@ public class ProductDao {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(pstmt);
 			close(rs);
+			close(pstmt);
 		}
 		return result;
 	}
@@ -60,8 +60,8 @@ public class ProductDao {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(pstmt);
 			close(rs);
+			close(pstmt);
 		}
 		return result;
 	}
@@ -84,8 +84,8 @@ public class ProductDao {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(pstmt);
 			close(rs);
+			close(pstmt);
 		}
 		return result;
 	}
@@ -104,8 +104,8 @@ public class ProductDao {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(pstmt);
 			close(rs);
+			close(pstmt);
 		}
 		return result;
 		

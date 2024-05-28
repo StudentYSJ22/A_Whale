@@ -9,7 +9,7 @@
  <table class='review-table' width="100%">
           <thead>
               <tr>
-                  <th>번호</th>
+                  <th>no.</th>
                   <th>리뷰 제목</th>
                   <th>작성자</th>
                   <th>작성일</th>
@@ -26,12 +26,12 @@
                   <td><%=r.getReviewEnrollDate() %></td>
               </tr>
               <tr class="review-content">
-                  <td colspan='2' style="padding:30px;">
+                  <td colspan='1' style="padding:30px;">
                       <img src="https://i.imgur.com/spsVERs.png" alt="Review Image 1" width="200">
                       <img src="https://i.imgur.com/spsVERs.png" alt="Review Image 1" width="200">
                   </td>
-                      <td colspan='3' style="padding:30px;">
-                      <%=r.getReviewContent() %>
+                      <td colspan='4' style="padding:30px;">
+                      <%=r.getReviewContent()%>
                   </td>
               </tr>
            <%}

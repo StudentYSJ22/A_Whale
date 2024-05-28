@@ -1,11 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.List,com.nbp.product.review.model.DTO.Review" %>
+<%@ page import="java.util.List,com.nbp.product.review.model.DTO.Review,com.nbp.product.review.model.DTO.Qna,com.nbp.product.model.DTO.Product" %>
+<%@ include file="/WEB-INF/common/sessionInfo.jsp" %>
+
 <%
-	String pageBar=(String)request.getAttribute("pageBar");
+	String pageBar=(String)request.getAttribute("pageBar"); 
+	String qnaPageBar=(String)request.getAttribute("qnaPageBar"); 
 	List<Review> reviews = (List<Review>)request.getAttribute("reviews");
-	
+	List<Qna> qnas = (List<Qna>)request.getAttribute("qnas");
+
 %>
+
+
+
+
 
 <style>
 body {
@@ -139,7 +147,6 @@ body {
 .review-table th, .review-table td {
 	padding: 12px 15px;
 	text-align: center; /* 텍스트 중간 정렬 */
-	border: 1px solid #ddd; /* 테두리 스타일 */
 }
 
 .review-table th {
@@ -150,11 +157,10 @@ body {
 .review-table img {
 	width: 100px;
 	height: auto;
-	border-radius: 5px;
 }
 
 .review-table tbody tr:nth-child(even) {
-	background-color: #f9f9f9; /* 짝수 행 배경색 */
+	background-color: rgba(255, 255, 255, 0.45); /* 짝수 행 배경색 */
 }
 
 .review-table tbody tr:hover {
@@ -212,7 +218,7 @@ body {
 
 		.review-table th:nth-child(1),
 	  .review-table td:nth-child(1) {
-	      width: 7%;
+	      width: 9%;
 	  }
 	  .review-table th:nth-child(3),
 	  .review-table td:nth-child(3) {
@@ -222,6 +228,100 @@ body {
 	  .review-table td:nth-child(4) {
 	      width: 12%;
 	  }
+	  /* -----------qna 등록 버튼 ------------- */
+	  #qnaInsertBtn{
+	  		float:right;
+            width: 200px;
+			height:25px;
+			padding-top:2px;
+            background-color: rgb(10, 10, 169);
+            margin:5px;
+            border-radius: 5px;
+            color:white;
+            font-weight:bolder;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.717);
+            cursor:pointer;
+	  }
+	   #qnaInsertBtn:hover{
+	   		opacity:0.7;
+	   
+	   }
+	  /* -------------Q&A 모달창 스타일 ---------------- */
+		.modal {
+		    display: none;
+		    position: fixed; /* 화면에 고정 */
+		    z-index: 1; /* 다른 요소들 위에 표시 */
+		    left: 0;
+		    top: 0;
+		    width: 100%; /* 전체 화면 너비 */
+		    height: 100%; /* 전체 화면 높이 */
+		    overflow: auto; /* 필요한 경우 스크롤 */
+		    background-color: rgb(0,0,0); /* 백그라운드 색상 */
+		    background-color: rgba(0,0,0,0.4); /* 백그라운드 불투명도 */
+		}
+		
+		/* 모달 콘텐츠 */
+		.modal-content {
+		    background-color: #fefefe;
+		    margin: 15% auto; /* 중앙 정렬 */
+		    padding: 20px;
+		    border: 1px solid #888;
+		    width: 80%; /* 너비 설정 */
+		    max-width: 500px; /* 최대 너비 설정 */
+		}
+		
+		/* 닫기 버튼 */
+		.qnaClose {
+		    color: #aaa;
+		    float: right;
+		    font-size: 35px;
+		    font-weight: bold;
+		}
+		
+		.qnaClose:hover,
+		.qnaClose:focus {
+		    color: black;
+		    text-decoration: none;
+		    cursor: pointer;
+		}
+		
+		/* 입력 폼 스타일 */
+		form label {
+		    display: block;
+		    margin-top: 10px;
+		}
+		
+		form input[type="text"],
+		form textarea {
+		    width: 100%;
+		    padding: 10px;
+		    margin-top: 5px;
+		    margin-bottom: 10px;
+		    border: 1px solid #ccc;
+		    box-sizing: border-box;
+		}
+		
+		form textarea {
+		    height: 100px;
+		    resize: none; /* 크기 조정 불가능 */
+		}
+		
+		form button {
+		    margin-top: 10px;
+		    padding: 10px 20px;
+		    background-color: #4CAF50;
+		    color: white;
+		    border: none;
+		    cursor: pointer;
+		}
+		
+		form button#cancelBtn {
+		    background-color: red;
+		}
+		
+		form button:hover {
+		    opacity: 0.8;
+		}
 
 </style>
 
@@ -268,7 +368,7 @@ body {
 	</div>
 
 	<script>
-        // 더보기 버튼 클릭시 이미지 나오게 하는 함수
+        // 제품 상세에서 더보기 버튼 클릭시 이미지 나오게 하는 함수
             $(document).on('click', '.information-more-btn', function() {
         $("#information-img").css('height','auto');
         document.getElementById("information-img").style.overflow='visible';
@@ -286,9 +386,9 @@ body {
 		<div id="reviewResult"
 			style="display: flex; flex-direction: column; align-items: center; width: 60%;">
 			<table class='review-table' width="100%">
-				<thead style="border-bottom: 1px solid blue;">
+				<thead>
 					<tr>
-						<th>번호</th>
+						<th>no.</th>
 						<th>리뷰 제목</th>
 						<th>작성자</th>
 						<th>작성일</th>
@@ -307,11 +407,11 @@ body {
 						<td><%=r.getReviewEnrollDate()%></td>
 					</tr>
 					<tr class="review-content">
-						<td colspan='2' style="padding: 30px;"><img
+						<td colspan='1' style="padding: 30px;"><img
 							src="https://i.imgur.com/spsVERs.png" alt="Review Image 1"
 							width="200"> <img src="https://i.imgur.com/spsVERs.png"
 							alt="Review Image 1" width="200"></td>
-						<td colspan='3' style="padding: 30px;"><%=r.getReviewContent()%>
+						<td colspan='4' style="padding: 30px;"><%=r.getReviewContent()%>
 						</td>
 					</tr>
 					<%}
@@ -322,8 +422,6 @@ body {
 			<%=pageBar%>
 		</div>
 	</div>
-
-
 <script>
       
         
@@ -391,42 +489,227 @@ body {
     
     <div id="product-qna">
 		<div id="qna-title">Q&A</div>
-		<div id="reviewResult"
+		<div style="width:60%; margin-bottom:5px;">
+			<div id="qnaInsertBtn">상품 Q&A 작성하기</div>
+			
+			
+			<!--------------------- 상품 문의 모달창  ---------------------------->
+			
+			
+			 <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="qnaClose">&times;</span>
+            <h2>문의하기</h2>
+            <form action="<%=request.getContextPath()%>/product/productqna.do">
+                <label for="userId">아이디</label>
+                <% if(loginMember!=null){ %>
+                <input type="text" id="userId" name="userId" value='<%=loginMember.getMemberId()%>' required readOnly><br><br>
+				<%}else{ %>
+				 <input type="text" id="userId" name="userId" required readOnly><br><br>
+				 <%} %>
+				<input id="qnaProductQna" name="productName" value='<%=p.getProductName()%>' style='display:none;'>
+				
+                <label for="queryTitle">문의 제목</label>
+                <input type="text" id="queryTitle" name="queryTitle" required><br><br>
+
+                <label for="queryContent">문의 내용</label>
+                <textarea id="queryContent" name="queryContent" required></textarea>
+                <div id="byteCounter" style="float:right; font-size:13px;">0/1000 bytes</div><br><br>
+
+                <label for="private">비공개</label>
+				<input type="hidden" name="private" value="false">
+				<input type="checkbox" id="private" name="private" value="true"><br><br>
+
+                <button type="button" id="cancelBtn">취소</button>
+                <button type="submit" id="submitBtn">확인</button>
+            </form>
+        </div>
+    </div>
+			
+			
+		</div>
+		<div id="qnaResult"
 			style="display: flex; flex-direction: column; align-items: center; width: 60%;">
 			<table class='review-table' width="100%">
-				<thead style="border-bottom: 1px solid blue;">
+				<thead>
 					<tr>
-						<th>번호</th>
+						<th>답변상태</th>
 						<th>제목</th>
 						<th>작성자</th>
 						<th>작성일</th>
 					</tr>
 				</thead>
 				<tbody id="ajaxReviewTbody" class="table-group-divider">
-
-					<tr class="review-detail">
-						<td>1</td>
-						<td>제품 문의드립니다.</td>
-
-						<td>user01</td>
-						<td>24.05.26</td>
-					</tr>
-					<tr class="review-content">
-						<td colspan='5' style="padding: 30px;">
-							 <span style="float:left;">상품 언제쯤 재입고될까요?</span>
-							 <br><br><hr><br>
-							<span style="float:left;">상품답변중입니다.</span>
-						</td>
-					</tr>
-
-
+					<%
+						if (!qnas.isEmpty()){
+							for(Qna q : qnas){
+					%>
+						<tr class="qna-detail">
+						<%if(q.getQnaAnswerContent()!=null){ %>
+							<td style="font-weight:bolder; color:blue;">답변완료</td>
+							<%}else{%>
+							<td>미답변</td>
+							 <%} %>
+							 
+							 <!-- 공개글 혹은 본인 글일때 보이게 처리 -->
+							 
+						<%if(q.getQnaSecretYn()==1 || q.getMemberId().equals(" ")) {%>
+							<td>제품 문의드립니다.</td>
+							<td><%=q.getMemberId() %></td>
+							<td><%=q.getQnaEnrollDate() %></td>
+						</tr>
+						<tr class="qna-content">
+							<td colspan='5' style="padding: 30px;">
+								 <span style="float:left;"><%=q.getQnaContent()%></span>
+								   <br><br><hr><br>
+								   <%if(q.getQnaAnswerContent()!=null){ %>
+								 <span style="float:left;">└답변 : <%=q.getQnaAnswerContent() %></span>
+								 <%}else{%>
+								 <span style="float:left;">답변 대기중입니다.</span>
+								 <%} %>
+							</td>
+						</tr>
+						
+						
+						
+						<!-- 비공개글 처리 -->
+						
+						<%}else{ %>
+						<td>비공개 글입니다.🔒</td>
+							<td><%=q.getMemberId() %></td>
+							<td><%=q.getQnaEnrollDate() %></td>
+						</tr>
+						<tr class="qna-content">
+							<td colspan='5' style="padding: 30px;">
+								 <span style="float:left;">비공개 글입니다.🔒</span>
+								   <br><br><hr><br>
+								   <%if(q.getQnaAnswerContent()!=null){ %>
+								 <span style="float:left;">└답변 : 비공개 글입니다.🔒</span>
+								 <%}else{%>
+								 <span style="float:left;">답변 대기중입니다.</span>
+								 <%} %>
+							</td>
+						</tr>
+						<%} %>
+						
+					<%}
+					}%>
 				</tbody>
 			</table>
 			<!-- 페이지 바 -->
-			<%=pageBar%>
+			<%=qnaPageBar%>
 		</div>
 	</div>
 	</div>
+		<script>
+		
+		
+		
+		
+	      /* ajax 페이지 번호 클릭시 qna페이지 변환 */
+        	$(document).on('click', '.qnacPage', function() {
+        	let cPage = $(this).text();
+        	let productName=$(".product-title").text();
+        	$.get("<%=request.getContextPath()%>/product/qnaall.do?ajaxcPage="+cPage+"&productName="+productName)
+        	.done(data=>{
+        		console.log(data);
+        		document.getElementById("qnaResult").innerHTML=data;
+                $('.qna-content').hide();
+        	});
+        	
+        })
+        
+        /* qna 게시판 클릭시 하단에 내용 나오는 로직 구현 */
+        $(document).ready(function() {
+            $('.qna-content').hide();
+            
+            $(document).on('click', '.qna-detail', function() {
+              let contentRow = $(this).next('.qna-content');
+              $('.qna-content').not(contentRow).slideUp(1);
+                contentRow.slideToggle(1);
+            });
+        });
+	      
+	 
+          
+          /* qna 페이지 이전 버튼 구현 */
+    	    $(document).on('click', '#qnaPagePrev', function() {
+      	 let cPage = $("#cPageNext_qna").text();
+       	
+      	let productName=$(".product-title").text();
+       	
+       	let prevcPage = (Math.floor((Number(cPage) - 1) / 3) - 1) * 3 + 1;
+       	
+       	$.get("<%=request.getContextPath()%>/product/qnaall.do?ajaxcPage="+prevcPage+"&productName="+productName)
+       	.done(data=>{
+       		document.getElementById("qnaResult").innerHTML=data;
+               $('.qna-content').hide();
+       	});
+       });
+          
+    	    /* qna 페이지 다음 버튼 구현 */
+            $(document).on('click', '#qnaPageNext', function() {
+            	let cPage = $("#cPageNext_qna").text();
+            	
+            	let productName=$(".product-title").text();
+            	
+            	let nextcPage = Math.floor((Number(cPage) - 1) / 3 + 1) * 3 + 1;
+            	
+            	$.get("<%=request.getContextPath()%>/product/qnaall.do?ajaxcPage="+nextcPage+"&productName="+productName)
+            	.done(data=>{
+            		document.getElementById("qnaResult").innerHTML=data;
+                    $('.qna-content').hide();
+            	});
+            });
+		
+    	    
+    	    
+    /* 상품 Q&A 작성하기 버튼기능 구현 / 모달창  */
+    document.addEventListener('DOMContentLoaded', (event) => {
+	    // 모달 엘리먼트
+	    var modal = document.getElementById("myModal");
+	    // 모달을 여는 버튼
+	    var btn = document.getElementById("qnaInsertBtn");
+	    // 모달을 닫는 span 엘리먼트
+	    var span = document.getElementsByClassName("qnaClose")[0];
+	    // 취소 버튼
+	    var cancelBtn = document.getElementById("cancelBtn");
+	    // 문의 내용 입력란
+	    var queryContent = document.getElementById("queryContent");
+	    // 바이트 카운터
+	    var byteCounter = document.getElementById("byteCounter");
+	    // 최대 바이트 수
+	    var maxBytes = 1000;
+	    // 모달을 여는 이벤트 핸들러
+	    btn.onclick = function() {
+	    <% if(loginMember!=null){ %>
+	        modal.style.display = "block";
+	    <%}else{%>
+	    	alert("로그인 후 이용해주세요.");
+	   	<%}%>
+	    }
+	    // 모달을 닫는 이벤트  - x버튼
+	    span.onclick = function() {
+	        modal.style.display = "none";
+	    }
+	    // 모달을 닫는 이벤트  - 닫기 버튼
+	    cancelBtn.onclick = function() {
+	        modal.style.display = "none";
+	    }
+	    // 모달을 닫는 이벤트  - 모달 밖 아무곳이나
+	    window.onclick = function(event) {
+	        if (event.target == modal) {
+	            modal.style.display = "none";
+	        }
+	    }
+	});
+    	    
+    	    
+    	    
+		</script>
+		
+		
+		
 </div>
     
 
