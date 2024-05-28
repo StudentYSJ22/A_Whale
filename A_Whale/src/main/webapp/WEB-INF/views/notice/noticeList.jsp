@@ -102,8 +102,7 @@
             	<div>
             		조회된 공지사항이 없습니다
             	</div>
-            <%
-            }else{
+            <%}else{
                  for(Notice n:notices){%>
             	<div style="display:flex; border-bottom: 0.5px solid rgb(202, 202, 254);">
 	            	<div  class="notice_no">
@@ -126,14 +125,15 @@
             </div>
         </div>
         
-        <div class="pagebar" >
-        	<div>
-        		<%=request.getAttribute("pageBar") %>
-        	</div>
-        </div>
-        <%-- <button class="btn btn-outline-primary"
-     		onclick="location.assign('<%=request.getContextPath()%>/notice/noticewrite.do')">공지글쓰기
-     	</button> --%>
+        <!-- //ADMIN만 페이징처리 안보이게 -->
+        <% if (request.getAttribute("pageBar") != null) { %>
+		<div class="pagebar">
+		    <div>
+		        <%= request.getAttribute("pageBar") %>
+		    </div>
+		</div>
+		<% } %>
+        
      	
     </section>
 </body>

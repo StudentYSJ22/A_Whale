@@ -15,12 +15,18 @@ import com.nbp.notice.model.dto.Notice;
 
 
 public class NoticeService {
-	private NoticeDAO dao=new NoticeDAO();
+private NoticeDAO dao=new NoticeDAO();
 	
 	
 	public List<Notice> selectNoticeAll(int cPage, int numPerpage){
 		Connection conn = getConnection();
 		List<Notice> result = dao. selectNoticeAll(conn, cPage, numPerpage);
+		close(conn);
+		return result;
+	}
+	public List<Notice> adminSelectNoticeAll(){
+		Connection conn = getConnection();
+		List<Notice> result = dao. adminSelectNoticeAll(conn);
 		close(conn);
 		return result;
 	}

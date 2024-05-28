@@ -2,6 +2,7 @@ package com.nbp.notice.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,58 +34,55 @@ public class NoticeWriteEndServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String path=getServletContext().getRealPath("/upload/notice");//getRealPath("/")하면 wepapp위치가 잡힌다
-		System.out.println(path);
-		File dir = new File(path);
-		if(!dir.exists()) dir.mkdirs();
 		//인코딩 
 		String encode="UTF-8";
 		
+		String uploadPath=getServletContext().getRealPath("/")+"upload";//getRealPath("/")하면 wepapp위치가 잡힌다
+//				System.out.println(uploadPath);
+		File uploadDir = new File(uploadPath);
+		if(!uploadDir.exists()) uploadDir.mkdirs();
+		
+		
 		//파일크기
-		int maxSize=1024*1024*50; //10메가바이트
+		int maxSize=1024*1024*20; 
 		
 		//리네임
 		DefaultFileRenamePolicy dfrp=new DefaultFileRenamePolicy();
 		
-		MultipartRequest mr = new MultipartRequest(
-				request,path,maxSize,encode,dfrp);
+		MultipartRequest mr = new MultipartRequest(request,uploadPath,maxSize,encode,dfrp);
 		
-		//나머지 정보를 가져오기
+		//폼으로 보낸거 가져오는거
 		String title= mr.getParameter("title");
 		String writer = mr.getParameter("writer");
 		String content= mr.getParameter("content");
+		String fileName = "";
 		
-		//업로드된 파일정보 (리네임되 명칭을 저장되어있게 하고 사용자가 저장한 이름과 매칭되게 가져오게 하기)
-		//원본파일명
-		String oriname=mr.getOriginalFileName("upfile");
-		//리네임파일명
-		String rename= mr.getFilesystemName("upfile");
-		System.out.println(title+" "+writer+" "+content+" "+oriname+" "+rename);
+		////
+		Enumeration files = mr.getFileNames();
+        while (files.hasMoreElements()) {
+            String name = (String) files.nextElement();
+            fileName = mr.getFilesystemName(name);
+        }
 		
-		Notice n = Notice.builder()
-				.noticeTitle(title)
-				.noticeWriter(writer)
-				.noticeContent(content)
-				.filePath(rename)
-				.build();
-		int result = new NoticeService().insertNotice(n);
-		String msg,loc;
-		if(result>0) {
-			msg="공지사항등록 성공";
-			loc="/notice/noticelist.do";
-		}else {
-			msg="공지사항 등록 실패";
-			loc="/notice/noticewrite.do";
-			
+		Notice notice = new Notice();
+		notice.setNoticeTitle(title);
+        notice.setNoticeWriter(writer);
+        notice.setNoticeContent(content);
+        notice.setNoticeImgUrl(fileName); 
+        
+        
+        int noticeNo = new NoticeService().insertNotice(notice);
+        
+        if (noticeNo > 0) {
+        	System.out.println("Inserted Notice No: " + noticeNo); // 디버그용 출력
+            response.sendRedirect(request.getContextPath() + "/notice/noticeview.do?no=" + notice.getNoticeNo());
+        } else {
+            System.out.println("Failed to insert notice"); // 디버그용 출력
 
-			File delFile= new File(path+"/"+rename);
-			if(delFile.exists()) delFile.delete();
-
-		}
-		request.setAttribute("msg", msg);
-		request.setAttribute("loc", loc);
-		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
-		
+            request.setAttribute("msg", "공지사항 등록 실패");
+            request.setAttribute("loc", "/notice/noticewrite.do");
+            request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+        }
 	}
 
 	/**

@@ -6,7 +6,7 @@
 	List<Product> products=(List<Product>)request.getAttribute("products");
 	List<Notice> notices=(List<Notice>)request.getAttribute("notices");
 	Member loginMember =(Member) (Member)session.getAttribute("loginMember");
-%>
+%> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -166,7 +166,7 @@
         <div>헤더부분</div>
     </header>
 
-    <div style="display: flex;">
+    <div style="display: flex; border-bottom:1px solid black;">
         <section id="sidebar">
             <ul class="side-menu">
                 <li>
@@ -209,109 +209,16 @@
                 <li>
                     <a href="#">게시판 관리</a>
                     <ul class="side-dropdown">
-                        <li ><a href="#" id="noticeBoard" data-target="noticeSection">공지사항 관리</a></li>
+                        <li ><a href="<%=request.getContextPath()%>/admin/adminnotice.do" data-target="noticeSection">공지사항 관리</a></li>
                     </ul>
                 </li>
             </ul>
         </section>
+        <section id="content" style="width:70%; border-left: 1px solid black; ">
         
-    
-        <section id="Container" >
-            <section id="basicSection">
-                <div>기본 섹션</div>
-            </section>
-
-            <section id="productSearch" style="display: none;">
-                <div>상품 조회</div>
-            </section>
-
-            <section id="productUpdate" style="display: none;">
-                <div>상품수정</div>
-            </section>
-
-            <section id="productInsert" style="display: none;">
-                <div>상품등록</div>
-            </section>
-
-            <section id="manageCategory" style="display: none;">
-                <div>카테고리 관리</div>
-            </section>
-
-            <section id="orderSection" style="display: none;">
-                <div>
-                	<div>주문 관리</div>
-                </div>
-                <div>
-                	<h1>주문조회하기</h1>
-			    
-			    <table id="ordersTable">
-			    
-			    </table>
-                </div>
-                
-                
-            </section>
-
-            <section id="noticeSection" style="display:none;">
-                <div>
-                    <div>공지사항 관리</div>
-                </div>
-                <div>
-                	<button class=""
-     				onclick="location.assign('<%=request.getContextPath()%>/notice/noticelist.do')">공지글 조회
-     				</button>
-                </div>
-                
-
-                <div>
-                 	<button id="noticeButton"> 공지사항 작성</button> 
-                </div>
-                <div class="form-container" id="formContainer">
-                    <form action="<%=request.getContextPath() %>/notice/noticewriteend.do" 
-                    method="post" enctype="multipart/form-data">
-                        <div class="row1" >
-                            <div class="row2" >
-                                제목
-                            </div>
-                            <div>
-                                <input class="form-control" type="text" name="title" required>
-                            </div>
-                        </div>
-                        <div class="row1" >
-                            <div class="row2" >
-                                작성자
-                            </div>
-                            <div>
-                                <input class="form-control" type="text" name="writer" value="<%=loginMember.getMemberId()%>" readOnly> 
-
-                            </div>
-                        </div>
-                        <div class="row1" >
-                            <div class="row2" >
-                                첨부파일
-                            </div>
-                            <div>
-                                <input class="form-control" type="file" name="upfile">
-                            </div>
-                        </div>
-                        <div>
-                            <div class="row2" style="margin: 10px 0;">
-                                상세내용
-                            </div>
-                            <div style="margin: 0 30px;">
-                                <textarea class="form-control" rows="10" cols="20" name="content" id="" style="resize: none;"></textarea>
-                            </div>
-                        </div>
-                        <div style="margin: 20px 0; text-align: center;">
-                            <input type="submit" value="등록하기">
-                        </div>
-                    </form>
-                </div>
-            </section>
-        </section>
+        </section> 
     </div>
     
-
     <script>
         const allDropdown = document.querySelectorAll('#sidebar .side-dropdown');
         const sections = document.querySelectorAll('#Container > section');
@@ -334,8 +241,20 @@
                 item.classList.toggle('show');
             });
         });
+        
+        $(document).ready(function(){
+            $(".side-menu a[data-target]").click(function(event){
+                event.preventDefault();
+                var target = $(this).data("target");
+                var url = $(this).attr("href");
 
-        links.forEach(link => {
+                $("#content").load(url);
+            });
+        });
+        
+        
+
+        /* links.forEach(link => {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('data-target');
@@ -359,8 +278,79 @@
             } else {
                 formContainer.style.display = 'none';
             }
-        });
+        }); */
   
+     
+        
+        
+        
+        //결제관련
+        <%-- function searchPayments() {
+            $.ajax({
+                url: "<%=request.getContextPath()%>/admin/getAllPayments.do",
+                type: 'GET',
+                contentType: "application/json; charset=utf-8",
+                success: function(response) {
+                    console.log("서버 응답:", response); // 응답 내용을 콘솔에 출력
+                    try {
+                        // JSON 응답 형식 확인
+                        if (typeof response === "string") {
+                            response = JSON.parse(response);
+                        }
+                        console.log("파싱된 응답:", response);
+                        if (response.response) {
+                            displayPaymentsInfo(response.response.list); // "list" 필드를 사용
+                        } else if (response.error) {
+                            alert("서버 에러: " + response.error);
+                        } else {
+                            alert("결제 정보가 없습니다.");
+                        }
+                    } catch (error) {
+                        alert("결제 정보를 파싱하는 중 오류가 발생했습니다.");
+                        console.log("파싱 오류:", error);
+                    }
+                },
+                error: function(error) {
+                    alert("결제 정보를 조회할 수 없습니다.");
+                    console.log("AJAX 오류:", error);
+                }
+            });
+        }
+
+        function displayPaymentsInfo(paymentInfos) {
+            let html = '<table border="1">' +
+			            '<tr>' +
+			            '<th>UID/MID</th>' +
+			            '<th>주문명</th>' +
+			            '<th>고객정보</th>' +
+			            '<th>결제 상태</th>' +
+			            '<th>결제대행사</th>' +
+			            '<th>결제 금액</th>' +
+			            '<th>구분</th>' +
+			            '<th>결제 방법</th>' +
+			            '<th>결제 일시</th>' +			      
+			            '<th>상태승인시각</th>' +
+			            '</tr>';
+            paymentInfos.forEach(function(paymentInfo) {
+            	html += '<tr>';
+                html += '<td>' + paymentInfo.imp_uid + '</td>';
+                html += '<td>' + paymentInfo.name + '</td>';
+                html += '<td>' + paymentInfo.buyer_name + '</td>';
+                html += '<td>' + paymentInfo.status + '</td>';
+                html += '<td>' + paymentInfo.pg_provider + '</td>';
+                html += '<td>' + paymentInfo.amount + '</td>';
+                html += '<td>' + paymentInfo.type + '</td>';
+                html += '<td>' + paymentInfo.pay_method + '</td>';
+                html += '<td>' + new Date(paymentInfo.paid_at * 1000).toLocaleString() + '</td>';
+                html += '<td>' + new Date(paymentInfo.approval_time * 1000).toLocaleString() + '</td>';
+                html += '</tr>';
+            });
+            html += '</table>';
+            document.getElementById("paymentInfos").innerHTML = html;
+        } --%>
+        
+        
+       
     </script>
 
 
