@@ -1,23 +1,28 @@
 package com.nbp.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.nbp.order.model.dto.MyPageOrder;
+import com.nbp.order.model.service.OrderService;
+
 /**
- * Servlet implementation class MyPageIconServlet
+ * Servlet implementation class GetOrderListServlet
  */
-@WebServlet("/MyPage/mypagepage.do")
-public class MyPageIconServlet extends HttpServlet {
+@WebServlet("/MyPage/getOrderList.do")
+public class GetOrderListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MyPageIconServlet() {
+    public GetOrderListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,10 +31,14 @@ public class MyPageIconServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//로그인이 안됐을 때 로그인페이지
-		//로그인이 됐을 때 마이페이지
-		
-		request.getRequestDispatcher("/WEB-INF/MyPage/MyPage.jsp").forward(request, response);
+		String MemberId=request.getParameter("MemberId");
+		System.out.println(MemberId);
+//		OrderService os=new OrderService();
+//		List<MyPageOrder> result=os.getMyOrderList(MemberId);
+//		
+		request.setAttribute("MemberId",MemberId);
+		System.out.println(MemberId);
+		request.getRequestDispatcher("/WEB-INF/MyPage/MyOrderList.jsp").forward(request, response);
 	}
 
 	/**

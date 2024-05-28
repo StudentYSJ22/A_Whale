@@ -1,12 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="com.nbp.model.DTO.Member"%>
+    <%@ page import="com.nbp.model.DAO.MemberDAO" %>
+    <%
+    Member loginMember=(Member)session.getAttribute("loginMember");
+    String MemberId=loginMember.getMemberId();
+
+    Cookie[] cookies=request.getCookies();
+    String saveId=null;
+    if(cookies!=null){
+       for(Cookie c : cookies){
+          if(c.getName().equals("saveId")){
+             saveId=c.getValue();
+             break;
+          }
+       }
+    }
+    request.setAttribute("loginMember", loginMember);
+    %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <%@ include file="/WEB-INF/common/subHeader.jsp" %> 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
 <title>Insert title here</title>
 </head>
 <body>
@@ -93,9 +109,6 @@
         	flex-direction: column;
         }
 </style>
-
-
-
 <body>
     <section class="section">
         <aside class="aside">
@@ -104,11 +117,11 @@
                     <li>*내정보 확인하기</li>
                     <li><a id="editProfileLink">-회원정보 수정</a></li>
                     <li><a id="deleteProfileLink">-회원탈퇴</a></li>
-                    <li><a href="">*주문내역조회</a></li>
-                    <li><a href="">*최근 본 상품</a></li>
+                    <li><a id="getOrderList">*주문내역조회</a></li>
+                    <li><a id="getRecentProduct">*최근 본 상품</a></li>
                     <li>*문의내역</li>
-                    <li><a href="">-상품문의 내역</a></li>
-                    <li><a href="">-1:1문의 내역</a></li>
+                    <li><a id="getQNAList">-상품문의 내역</a></li>
+                    <li><a id="getPQNAList">-1:1문의 내역</a></li>
                     <li><a href="">-나문희</a></li>
                 </ul>
             </nav>
@@ -118,24 +131,37 @@
            	
            </div>
         </article>
-    </section>
-    <script type="text/javascript">
-      $("#editProfileLink").click(e=>{
-    	  $.get("<%=request.getContextPath()%>/MyPage/memberupdate.do")
-    	  .done(data=>{
-    		  $("#content").html(data);
-    	  })
-      });
-      </script>
-      <script type="text/javascript">
-      $("#deleteProfileLink").click(e=>{
-    	  $.get("<%=request.getContextPath()%>/MyPage/memberdelete.do")
-    	  .done(data=>{
-    		  $("#content").html(data);
-    	  })
-      });
-    </script>
+   	 </section>
+   	 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript"> 
+    // loginMember 변수를 JavaScript 변수로 할당
+    
+    
+
+    $("#editProfileLink").click(e => {
+        $.get("<%=request.getContextPath()%>/MyPage/memberupdate.do")
+            .done(data => {
+                $("#content").html(data);
+            });
+    });
+
+    $("#deleteProfileLink").click(e => {
+        $.get("<%=request.getContextPath()%>/MyPage/memberdelete.do")
+            .done(data => {
+                $("#content").html(data);
+            });
+    });
+
+    $("#getOrderList").click(e => {
+        $.post("<%=request.getContextPath()%>/MyPage/getOrderList.do?MemberId=<%=MemberId%>")
+            .done(data => {
+                $("#content").html(data);
+            });
+            
+    });
+</script>
 </body>
+
 <footer>
 
 </footer>

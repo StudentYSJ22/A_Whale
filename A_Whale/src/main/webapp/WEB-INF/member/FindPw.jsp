@@ -61,7 +61,7 @@
             <input type="text" id="userId" name="userId" required>
             <label for="email">회원가입할 때 입력했던 이메일주소:</label>
             <input type="email" id="email" name="email" required>
-            <button type="submit" id="emailveri">이메일 인증</button>
+            <button type="button" id="emailveri" disabled>이메일 인증</button>
         </form>
         <div id="verificationSection" style="display:none;">
             <label for="verificationCode">인증번호 입력:</label>
@@ -91,22 +91,28 @@
     				$.ajax({
                         url: "<%=request.getContextPath()%>/common/FindPwVeri.do",
                         method: "POST",
-                        data: { userId: userId },
-                        done: function() {
-                            const DBId=DBID;
-                            const DBEmail=DBEM;
-                           
+                        data: { userId: $("#userId").val() },
+                        success: function(data) {
+                        	data=JSON.parse(data);
+                            if($("#userId").val()!=data.dbId&&$("#email").val()!=data.dbEmail){
+                            	alert("아이디, 이메일이 일치하지않습니다!");
+                            	$("#emailveri").text("본인인증실패");
+                            }else{
+                            	$("#emailveri").attr("disabled",false);
+	                            $("#emailveri").text("이메일 인증");
+                            }
                         },
                         error: function() {
-                            alert('이메일 전송에 실패했습니다.');
+                            alert('서버에서 본인인증에 실패 관리자에게 문의하세요!');
+                            $("#emailveri").text("본인확인 실패!");
                         }
                     }); 
+    				$("#emailveri").text("본인확인중....");
                 });
 
         
 		//이메일 인증 버튼 : 입력한 아이디와 이메일로 db와 비교 후에 일치하면 이메일 인증메일 전송 
-        document.getElementById("findPasswordForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+        document.getElementById("emailveri").addEventListener("click", function(event) {
             const username = document.getElementById("userId").value;
             const email = document.getElementById("email").value;
 
