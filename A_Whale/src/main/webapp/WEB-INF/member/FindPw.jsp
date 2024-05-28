@@ -61,14 +61,15 @@
             <input type="text" id="userId" name="userId" required>
             <label for="email">회원가입할 때 입력했던 이메일주소:</label>
             <input type="email" id="email" name="email" required>
-            <button type="submit" id="emailveri">이메일 인증</button>
+            <button type="button" id="emailveri" disabled>이메일 인증</button>
         </form>
         <div id="verificationSection" style="display:none;">
             <label for="verificationCode">인증번호 입력:</label>
             <input type="text" id="verificationCode" name="verificationCode" required>
             <button id="verifyButton">인증</button>
-            <div id="verficationResult" style="display:none;"></div>
         </div>
+            <div id="verficationResult" style="display:none;"></div>
+        
         
         <div id="newPasswordInputSection" style="display:none;">
         <label for="password">새로운 비밀번호:</label>
@@ -82,29 +83,36 @@
     </div>
 
     <script>
-        let verificationCode = "";
+        let verificationCodefromWeb = "";
         
-        document.getElementById("email").addEventListener("keyup",
+        document.getElementById("email").addEventListener("blur",
     			e=>{
+    				
     				$.ajax({
                         url: "<%=request.getContextPath()%>/common/FindPwVeri.do",
                         method: "POST",
-                        data: { userId: userId },
-                        done: function() {
-                            const DBId=DBID;
-                            const DBEmail=DBEM;
-                           
+                        data: { userId: $("#userId").val() },
+                        success: function(data) {
+                        	data=JSON.parse(data);
+                            if($("#userId").val()!=data.dbId&&$("#email").val()!=data.dbEmail){
+                            	alert("아이디, 이메일이 일치하지않습니다!");
+                            	$("#emailveri").text("본인인증실패");
+                            }else{
+                            	$("#emailveri").attr("disabled",false);
+	                            $("#emailveri").text("이메일 인증");
+                            }
                         },
                         error: function() {
-                            alert('이메일 전송에 실패했습니다.');
+                            alert('서버에서 본인인증에 실패 관리자에게 문의하세요!');
+                            $("#emailveri").text("본인확인 실패!");
                         }
                     }); 
-                }
+    				$("#emailveri").text("본인확인중....");
+                });
 
         
 		//이메일 인증 버튼 : 입력한 아이디와 이메일로 db와 비교 후에 일치하면 이메일 인증메일 전송 
-        document.getElementById("findPasswordForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+        document.getElementById("emailveri").addEventListener("click", function(event) {
             const username = document.getElementById("userId").value;
             const email = document.getElementById("email").value;
 
@@ -114,7 +122,8 @@
                     method: "POST",
                     data: { email: email },
                     success: function(response) {
-                        verificationCode = response;
+
+                    	verificationCodefromWeb = response;
                         $('#userId').prop('readonly', true);
                         $('#email').prop('readonly', true);
                         $('#verificationSection').show();
@@ -133,20 +142,20 @@
             event.preventDefault();
             const inputCode = document.getElementById("verificationCode").value;
 
-            if (inputCode === verificationCode) {
+            if (inputCode === verificationCodefromWeb) {
                         $('#newPasswordInputSection').show();
-                        $("verficationResult").html("인증 완료.");
+                        $("#verficationResult").html("인증 완료.");
                     }else {
-                    	$("verficationResult").html("인증 실패 인증번호를 확인해주세요.");
+                    	$("#verficationResult").html("인증 실패 인증번호를 확인해주세요.");
             }
         });
         
-		//인증번호의 인증 버튼 누른 후에 verficationResult에 결과 출력
+		//비밀번호 변경하기 버튼 섹션
         document.getElementById("changeButton").addEventListener("click", function(event) {
             event.preventDefault();
             const inputCode = document.getElementById("verificationCode").value;
 
-            if (inputCode === verificationCode) {
+            if (inputCode === verificationCodefromWeb) {
                 $.ajax({
                     url: "<%=request.getContextPath()%>/common/PasswordFinder.do",
                     method: "POST",

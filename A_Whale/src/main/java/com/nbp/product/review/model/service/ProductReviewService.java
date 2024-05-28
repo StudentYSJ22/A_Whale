@@ -5,9 +5,8 @@ import java.util.List;
 
 import com.nbp.product.review.model.DAO.ProductReviewDao;
 import com.nbp.product.review.model.DTO.Review;
+import static com.nbp.common.JDBCTemplate.*;
 
-import static com.nbp.common.JDBCTemplate.close;
-import static com.nbp.common.JDBCTemplate.getConnection;
 
 public class ProductReviewService {
 

@@ -1,6 +1,7 @@
 package com.nbp.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,43 +9,43 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nbp.model.DTO.Member;
-import com.nbp.model.service.MemberService;
+import com.nbp.order.model.dto.MyPageOrder;
+import com.nbp.order.model.service.OrderService;
 
 /**
- * Servlet implementation class FindIDEndServlet
+ * Servlet implementation class GetOrderListEndServlet
  */
-@WebServlet("/common/PasswordFinder.do")
-public class FindPWEndServlet extends HttpServlet {
+@WebServlet("/MyPage/getOrderLists.do")
+public class GetOrderListEndServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindPWEndServlet() {
-        super();
-        // TODO Auto-generated constructor stub
+    public GetOrderListEndServlet() {
+    	super();
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
-		//String request.getParameter("findemail");
-		MemberService sr=new MemberService();
-		String newPw=request.getParameter("newPw");
-		String userId=request.getParameter("userId");
-		String email=request.getParameter("email");
-		int Pwresult=sr.updateMemberByEmail(newPw, userId, email);
-		if(Pwresult>=1) {
-			response.getWriter().write("비밀번호가 변경되었습니다.");
-		}else if(Pwresult<0){
-			response.getWriter().write("비밀번호가 변경에 실패하였습니다.");
-		}
+		String loginMember=(String)request.getAttribute("loginMember");
+		
+		OrderService os=new OrderService();
 
+            
+         // 로그인한 회원의 주문 내역을 조회
+            List<MyPageOrder> orderList = os.getMyOrderList(loginMember);
 
+            // 조회된 주문 내역을 JSON 형식으로 변환하여 응답
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writeValue(response.getWriter(), orderList);
+        
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package com.nbp.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.nbp.model.DTO.Member;
 import com.nbp.model.service.MemberService;
 
@@ -30,12 +32,15 @@ public class FindPWVeriServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String userId=request.getParameter("userId");
 		MemberService sr=new MemberService();
-		Member m=sr.selectMemberById("userId");
-		String DBId=m.getMemberId();
-		String DBEmail=m.getMemberEmail();
-		request.setAttribute("DBId", DBId);
-		request.setAttribute("DBEmail", DBEmail);
+		Member m=sr.selectMemberById(userId);
+		String dbId="",dbEmail="";
+		if(m!=null) {
+			dbId=m.getMemberId();
+			dbEmail=m.getMemberEmail();
+		}
+		new Gson().toJson(Map.of("dbId",dbId,"dbEmail",dbEmail),response.getWriter());
 	}
 
 	/**
