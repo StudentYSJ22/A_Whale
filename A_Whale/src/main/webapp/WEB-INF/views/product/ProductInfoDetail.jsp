@@ -12,6 +12,7 @@
 	
 	String loginId="";
 	try{
+		
 		loginId=loginMember.getMemberId();
 	}catch(NullPointerException e){
 		loginId="";
