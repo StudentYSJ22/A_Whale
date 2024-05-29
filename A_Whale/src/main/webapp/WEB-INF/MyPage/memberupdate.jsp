@@ -1,21 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-
-    pageEncoding="UTF-8"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <%@ page import="com.nbp.model.DTO.Member" %> 
     <%@ page import="com.nbp.model.DAO.MemberDAO" %>   
-    
-
 <%
    Member loginMember=(Member)session.getAttribute("loginMember");
 %>
-
 <!DOCTYPE html>
+<html>
 <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet">
 <link href="https://webfontworld.github.io/kopus/KoPubWorldDotum.css" rel="stylesheet">
-
-<html>
-
 <head>
 
 <meta charset="UTF-8">
@@ -75,8 +67,5 @@
             
         </div>
     </div>
-
-
 </body>
-
 </html>

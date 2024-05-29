@@ -25,7 +25,6 @@
 <%@ include file="/WEB-INF/common/subHeader.jsp" %> 
 <title>Insert title here</title>
 </head>
-<body>
 <style>
     #menubar>ul>li{
         list-style: none;
@@ -109,6 +108,8 @@
         	flex-direction: column;
         }
 </style>
+
+
 <body>
     <section class="section">
         <aside class="aside">
@@ -157,7 +158,13 @@
             .done(data => {
                 $("#content").html(data);
             });
-            
+    });
+        
+    $("#getRecentProduct ").click(e => {
+        $.post("<%=request.getContextPath()%>/MyPage/getOrderList.do?MemberId=<%=MemberId%>")
+            .done(data => {
+                $("#content").html(data);
+            });  
     });
 </script>
 </body>

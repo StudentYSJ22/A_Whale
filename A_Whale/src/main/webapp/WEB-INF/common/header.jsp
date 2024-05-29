@@ -262,7 +262,7 @@
                 <div class="logo border" style="width: 300px; height: 120px;">
                     <div><h3 style="margin-left: 30px; margin-top: 20px; font-size:15px;">semi project. A.Whale.</h3></div>
                 </div>
-                <div class="logo border" ><img src="https://postfiles.pstatic.net/MjAyNDA1MTZfNjcg/MDAxNzE1ODUwMjgwOTY5.Jv6Kv_HtWZpWqwM47oHMsFPkdaNbnGuLxQcWEOivE3og.C6hmrMJVaBa-vZpvbdWJ47MpvixWDoZYUjALOHNn1ssg.PNG/logo1.png?type=w773" alt="" width="120px" height="90px"></div>
+                <div class="logo border" ><img src="https://i.imgur.com/KY6705K.png" alt="" width="105px" height="135px"></div>
                 <div  class="logo evencenter" style="width: 300px; height: 120px; "> 
 	                <img src="https://i.imgur.com/Tod2QyI.png" id="cartgo" width="50px" height="50px">
 	                <img src="https://i.imgur.com/hcPLIWf.png" id="wishlistgo" width="50px" height="50px">

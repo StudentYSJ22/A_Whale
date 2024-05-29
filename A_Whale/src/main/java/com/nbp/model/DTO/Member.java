@@ -17,12 +17,15 @@ import lombok.Setter;
 @Setter
 public class Member {
 	private String memberId;
+	private int memberNo;
 	private String memberNickname;
+	private String memberGrade;
 	private String memberPw;
 	private String memberName;
 	private String memberPhone;
 	private String memberEmail;
 	private String memberAdr;
-	private String memberIdNum;
+	private String memberBirthDate;
+	private int coupon;
 	private LocalDate enrollDate;
 }

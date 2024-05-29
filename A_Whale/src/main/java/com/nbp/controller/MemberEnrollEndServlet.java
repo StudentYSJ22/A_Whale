@@ -56,7 +56,7 @@ public class MemberEnrollEndServlet extends HttpServlet {
 		.memberPhone(userPhone)
 		.memberEmail(userEmail)
 		.memberAdr(userTotalAdr)
-		.memberIdNum(userBirthDate)
+		.memberBirthDate(userBirthDate)
 		.enrollDate(null)
 		.build();
 		MemberService ms=new MemberService();

@@ -29,6 +29,7 @@ public class WishlistService {
 	public int selectWishCount(String userId) {
 		Connection conn=getConnection();
 		int result=new WishlistDao().selectWishCount(conn, userId);
+		commit(conn);
 		close(conn);
 		return result;
 		
