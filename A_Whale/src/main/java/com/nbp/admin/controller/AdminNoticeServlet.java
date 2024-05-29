@@ -1,27 +1,23 @@
-package com.nbp.notice.controller;
+package com.nbp.admin.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.nbp.notice.model.dto.Notice;
-import com.nbp.notice.model.service.NoticeService;
-
 /**
- * Servlet implementation class NoticeDeleteServlet
+ * Servlet implementation class AdminNotice
  */
-@WebServlet("/notice/noticedelete.do")
-public class NoticeDeleteServlet extends HttpServlet {
+@WebServlet("/admin/adminnotice.do")
+public class AdminNoticeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeDeleteServlet() {
+    public AdminNoticeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,17 +26,8 @@ public class NoticeDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int noticeNo = Integer.parseInt(request.getParameter("no"));
-        int result = new NoticeService().deleteNotice(noticeNo);
-
-        if (result > 0) {
-            request.setAttribute("msg", "공지사항 삭제 성공");
-        } else {
-            request.setAttribute("msg", "공지사항 삭제 실패");
-        }
-        request.setAttribute("loc", "/admin/adminpage.do");
-        request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
-    }
+		request.getRequestDispatcher("/WEB-INF/views/admin/adminNotice.jsp").forward(request, response);
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

@@ -45,15 +45,15 @@ public class MyPageUpdateMemberEndServlet extends HttpServlet {
 		if(result>0) {
 			msg="회원정보가 수정되었습니다. :)";
 			loc="/";
+			request.setAttribute("msg",msg);
+			request.setAttribute("loc", loc);
 		}else {
 			msg="회원정보 수정이 실패했습니다. :( ";
 			loc="/MyPage/memberupdate.do";
+			request.setAttribute("msg",msg);
+			request.setAttribute("loc", loc);
 		}
-		request.setAttribute("msg",msg);
-		request.setAttribute("loc", loc);
-		
-		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp")
-		.forward(request,response);
+		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request,response);
 		
 	}
 	/**

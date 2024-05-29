@@ -35,7 +35,7 @@ public class MemberDAO {
 			pstmt.setString(5, m.getMemberPhone());
 			pstmt.setString(6, m.getMemberEmail());
 			pstmt.setString(7, m.getMemberAdr());
-			pstmt.setString(8, m.getMemberIdNum());
+			pstmt.setString(8, m.getMemberBirthDate());
 			result=pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -126,27 +126,19 @@ public class MemberDAO {
 	
 	
 	public static Member getMember(ResultSet rs) throws SQLException{
-		Date enrollDate=rs.getDate("member_enroll_date");
-//		String email, phone;
-//		try {
-//			email=AESEncryptor.decryptData(rs.getString("email"));
-//		}catch(Exception e) {
-//			email=rs.getString("email");
-//		}
-//		try {
-//			phone=AESEncryptor.decryptData(rs.getString("address"));
-//		}catch(Exception e) {
-//			phone=rs.getString("address");
-//		}
+		Date enrollDate=rs.getDate("ENROLL_DATE");
 		return Member.builder()
 				.memberId(rs.getString("MEMBER_ID"))
-				.memberPw(rs.getString("MEMBER_PASSWORD"))
+				.memberNo(rs.getInt("MEMBER_NO"))
 				.memberNickname(rs.getString("MEMBER_NICKNAME"))
+				.memberGrade(rs.getNString("MEMBER_GRADE"))
+				.memberPw(rs.getString("MEMBER_PASSWORD"))
 				.memberName(rs.getString("MEMBER_NAME"))
 				.memberPhone(rs.getString("MEMBER_PHONE"))
 				.memberEmail(rs.getString("MEMBER_EMAIL"))
 				.memberAdr(rs.getString("MEMBER_ADDRESS"))
-				.memberIdNum(rs.getString("MEMBER_ID_NUMBER"))
+				.memberBirthDate(rs.getString("MEMBER_IDNUMBER"))
+				.coupon(rs.getInt("MEMBER_COUPON"))
 				.enrollDate(enrollDate!=null?enrollDate.toLocalDate():null)
 				.build();
 	}
