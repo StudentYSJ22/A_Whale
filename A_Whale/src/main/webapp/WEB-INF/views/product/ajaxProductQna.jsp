@@ -5,11 +5,15 @@
 <%
 	String qnaPageBar=(String)request.getAttribute("qnaPageBar"); 
 	List<Qna> qnas = (List<Qna>)request.getAttribute("qnas");
-%>    
 
-<%
-   Member loginMember=(Member)session.getAttribute("loginMember");
-%> 
+	String loginId1="";
+	Member loginMember=(Member)session.getAttribute("loginMember");
+	try{
+		loginId1 = loginMember.getMemberId();
+	}catch(NullPointerException e){
+		loginId1="";
+	}
+%>    
     
 <table class='review-table' width="100%">
 				<thead>
@@ -34,7 +38,7 @@
 							 
 							 <!-- 공개글 혹은 본인 글일때 보이게 처리 -->
 							 
-						<%if(q.getQnaSecretYn()==1 || q.getMemberId().equals(loginMember.getMemberId())) {%>
+						<%if(q.getQnaSecretYn()==1 || q.getMemberId().equals(loginId1)) {%>
 							<td><%=q.getQnaTitle() %></td>
 							<td><%=q.getMemberId() %></td>
 							<td><%=q.getQnaEnrollDate() %></td>

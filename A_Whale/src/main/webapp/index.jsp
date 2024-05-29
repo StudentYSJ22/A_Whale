@@ -63,7 +63,7 @@
 			<img style="width: 100%; height: 100%;"
 				src="https://www.esquirekorea.co.kr/resources_old/online/org_online_image/eq/3e274de4-1b3a-4f88-825f-d47f690c8945.jpg"
 				alt="zz">
-		</div>
+		</div> 
 		<div class="right2 imagehidden">
 			<img style="width: 100%; height: 100%;"
 				src="https://ae01.alicdn.com/kf/Sf2b708307afb4923af70ea64bbcc2bd7y.jpg_640x640Q90.jpg_.webp"

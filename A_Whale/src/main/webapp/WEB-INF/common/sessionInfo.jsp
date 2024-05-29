@@ -1,9 +1,11 @@
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="com.nbp.model.DTO.Member" %> 
 <%
-    HttpSession session1 = request.getSession(false);
+    session = request.getSession(false);
     Member loginMember = null;
+    String loginId="";
     if (session != null) {
         loginMember = (Member) session.getAttribute("loginMember");
+    	loginId=loginMember.getMemberId();
     }
 %>

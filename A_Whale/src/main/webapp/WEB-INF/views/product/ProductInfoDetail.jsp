@@ -563,6 +563,7 @@ body {
 							 <!-- 공개글 혹은 본인 글일때 보이게 처리 -->
 							 
 						<%if(q.getQnaSecretYn()==1 || q.getMemberId().equals(loginId)) {%>
+						
 							<td><%=q.getQnaTitle()%></td>
 							<td><%=q.getMemberId() %></td>
 							<td><%=q.getQnaEnrollDate() %></td>
@@ -611,7 +612,6 @@ body {
 	</div>
 	</div>
 		<script>
-		
 		
 		
 		
@@ -712,8 +712,6 @@ body {
 	        }
 	    }
 	});
-    	    
-    	    
     	    
 		</script>
 		

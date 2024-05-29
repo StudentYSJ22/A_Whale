@@ -88,7 +88,7 @@ public class ProductQnaDao {
 	
 	public static Qna getQna(ResultSet rs) throws SQLException {
 		return Qna.builder()
-				.qnaId(rs.getString("qna_id"))
+				.qnaId(rs.getString("qna_no"))
 				.memberId(rs.getString("member_id"))
 				.qnaTitle(rs.getString("qna_title"))
 				.qnaContent(rs.getString("qna_content"))
